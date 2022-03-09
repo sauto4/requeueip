@@ -1,0 +1,10 @@
+# Binary output dir
+bin/
+e2e/bin/
+
+# Vscode files
+.vscode
+
+# Test outputs
+*.out
+*.test
