@@ -1,0 +1,36 @@
+name: CI
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: Start sample CI
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+        
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Go Test
+      run: make test
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build container image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: false
+        file: build/Dockerfile
+        tags: ghcr.io/${{ github.repository }}:latest
+
