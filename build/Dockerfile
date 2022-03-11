@@ -1,7 +1,7 @@
 FROM golang:1.17.8 AS builder
 WORKDIR /usr/src/requeueip
 COPY . .
-RUN make build
+RUN make
 
 FROM alpine:3.15.0
 WORKDIR /
