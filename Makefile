@@ -7,7 +7,7 @@ COMMIT = git-$(shell git rev-parse --short HEAD)
 
 
 all:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/requeueip cmd/requeueip.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/requeueip cmd/requeueip/main.go
 
 test:
 	@echo "test"
