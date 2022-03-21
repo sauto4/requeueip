@@ -60,28 +60,28 @@ spec:
 
 ```go
 type Subnet struct {
-	Name             string         // 子网名
-	mutex            sync.RWMutex   // 内存读写锁，具体以写锁使用
-	Protocol         string         // 支持 IPv4，IPv6，双栈三种模式
-	V4CIDR           *net.IPNet     // 子网 CIDR
+    Name             string         // 子网名
+    mutex            sync.RWMutex   // 内存读写锁，具体以写锁使用
+    Protocol         string         // 支持 IPv4，IPv6，双栈三种模式
+    V4CIDR           *net.IPNet     // 子网 CIDR
 
-	V4FreeIPList     IPRangeList    // 可用 IP 地址
-	V4ReleasedIPList IPRangeList    // 已释放的 IP 地址
-	V4ReservedIPList IPRangeList    // 除外的 IP 地址
+    V4FreeIPList     IPRangeList    // 可用 IP 地址
+    V4ReleasedIPList IPRangeList    // 已释放的 IP 地址
+    V4ReservedIPList IPRangeList    // 除外的 IP 地址
 
-	V4NicToIP        map[string]IP  // 记录 IP 分配关系的三个 map
-	V4IPToPod        map[IP]string
-	PodToNicList     map[string][]string
+    V4NicToIP        map[string]IP  // 记录 IP 分配关系的三个 map
+    V4IPToPod        map[IP]string
+    PodToNicList     map[string][]string
 
-	// V6CIDR           *net.IPNet
-	// V6FreeIPList     IPRangeList
-	// V6ReleasedIPList IPRangeList
-	// V6ReservedIPList IPRangeList
-	// V6NicToIP        map[string]IP
-	// V6IPToPod        map[IP]string
+    // V6CIDR           *net.IPNet
+    // V6FreeIPList     IPRangeList
+    // V6ReleasedIPList IPRangeList
+    // V6ReservedIPList IPRangeList
+    // V6NicToIP        map[string]IP
+    // V6IPToPod        map[IP]string
 
     // NicToMac         map[string]string
-	// MacToPod         map[string]string
+    // MacToPod         map[string]string
 }
 ```
 
@@ -93,29 +93,29 @@ type Subnet struct {
 
 ```go
 type IP struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+    metav1.TypeMeta   `json:",inline"`
+    metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec IPSpec `json:"spec"`
+    Spec IPSpec `json:"spec"`
 }
 
 type IPSpec struct {
-	PodName       string   `json:"podName"`
-	Namespace     string   `json:"namespace"`
+    PodName       string   `json:"podName"`
+    Namespace     string   `json:"namespace"`
     NodeName      string   `json:"nodeName"`
-	Subnet        string   `json:"subnet"`
+    Subnet        string   `json:"subnet"`
 
     IPAddress     string   `json:"ipAddress"`
-	V4IPAddress   string   `json:"v4IpAddress"`
-	V6IPAddress   string   `json:"v6IpAddress"`
+    V4IPAddress   string   `json:"v4IpAddress"`
+    V6IPAddress   string   `json:"v6IpAddress"`
 
     ContainerID   string   `json:"containerID"`
 
     // AttachSubnets []string `json:"attachSubnets"`
-	// AttachIPs     []string `json:"attachIps"`
+    // AttachIPs     []string `json:"attachIps"`
 
-	// MacAddress    string   `json:"macAddress"`
-	// AttachMacs    []string `json:"attachMacs"`
+    // MacAddress    string   `json:"macAddress"`
+    // AttachMacs    []string `json:"attachMacs"`
 }
 ```
 
@@ -135,8 +135,8 @@ Kube-OVN 的 IPAM 逻辑是内嵌在 kube-ovn-controller 中的，不排除 kube
 
   ```go
   type Controller struct {
-  	ipam        *ovnipam.IPAM
-  	podKeyMutex *keymutex.KeyMutex
+      ipam        *ovnipam.IPAM
+      podKeyMutex *keymutex.KeyMutex
       // ...
   }
   ```
@@ -145,8 +145,8 @@ Kube-OVN 的 IPAM 逻辑是内嵌在 kube-ovn-controller 中的，不排除 kube
 
   ```go
   type IPAM struct {
-  	mutex   sync.RWMutex
-  	Subnets map[string]*Subnet
+      mutex   sync.RWMutex
+      Subnets map[string]*Subnet
   }
   ```
 
@@ -154,9 +154,9 @@ Kube-OVN 的 IPAM 逻辑是内嵌在 kube-ovn-controller 中的，不排除 kube
 
   ```go
   type Subnet struct {
-  	Name  string
-  	mutex sync.RWMutex
-  	// ...
+      Name  string
+      mutex sync.RWMutex
+      // ...
   }
   ```
 
@@ -198,7 +198,7 @@ Kube-OVN IPAM 的逻辑是与 Kube-OVN 自身深度耦合的，所以不能片�
 2. 控制器进入主逻辑流程，完成各类初始化工作，我们仅关注 IPAM 的初始化。
 3. `List` 所有 *Subnet* 资源，将其依次维护至 Subnet 结构体，进而添加到 IPAM 结构体的 Subnet 数组中。
 4. `List` 所有 *Pod* 资源，根据仍然存活 *Pod* 的注解信息初始化各 Subnet 结构体中的 IP 分配关系 map。
-5. `List` 所有 *IPs* 资源，根据其 `Spec ` 信息继续更新各 Subnet 结构体中的 IP 分配关系 map。
+5. `List` 所有 *IPs* 资源，根据其 `Spec` 信息继续更新各 Subnet 结构体中的 IP 分配关系 map。
 6. `List` 所有 *Node* 资源，同样的根据 *Node* 信息更新各 Subnet 结构体中的 IP 分配关系 map（Kube-OVN 维护 *join 子网*  来负责 *Node* 到 *Pod* 的通信，所以 *Node* 也需要从相应 *Subnet* 下分配 IP，进而应用至 `ovn0` 接口）。
 
 
@@ -213,13 +213,13 @@ Kube-OVN IPAM 的逻辑是与 Kube-OVN 自身深度耦合的，所以不能片�
 
    ```go
    type SubnetStatus struct {
-   	AvailableIPs    float64 `json:"availableIPs"`
-   	UsingIPs        float64 `json:"usingIPs"`
-   	V4AvailableIPs  float64 `json:"v4availableIPs"`
-   	V4UsingIPs      float64 `json:"v4usingIPs"`
-   	V6AvailableIPs  float64 `json:"v6availableIPs"`
-   	V6UsingIPs      float64 `json:"v6usingIPs"`
-   	// ...
+       AvailableIPs    float64 `json:"availableIPs"`
+       UsingIPs        float64 `json:"usingIPs"`
+       V4AvailableIPs  float64 `json:"v4availableIPs"`
+       V4UsingIPs      float64 `json:"v4usingIPs"`
+       V6AvailableIPs  float64 `json:"v6availableIPs"`
+       V6UsingIPs      float64 `json:"v6usingIPs"`
+       // ...
    }
    ```
 
@@ -233,14 +233,14 @@ Kube-OVN IPAM 的逻辑是与 Kube-OVN 自身深度耦合的，所以不能片�
 
 1. 接下来，我们通过命令行或其他方式创建了一个 *Pod*。
 2. kube-ovn-controller `Watch` 到 *Pod* 资源的 Add 事件， 执行相关 `handle` 逻辑。
-3. 借由 B-3 步骤中的 *Subnet* `Status`与 B-5 步骤中的 *Namespace* 注解进入 *“选池”* 流程。遵循以下优先级挑选待分配 IP 的 Subnet：
+3. 借由 B-3 步骤中的 *Subnet* `Status` 与 B-5 步骤中的 *Namespace* 注解进入 *“选池”* 流程。遵循以下优先级挑选待分配 IP 的 Subnet：
    - *Pod* 注解中若直接指明要使用的 *Subnet*，那么选择它。
    - *Pod* 注解中未指明 *Subnet*，则尝试在 *Pod* 所处的 *Namespace* 资源上检索相应注解。
    - *Namespace* 资源的注解中可以指定多个待选 *Subnet*，按顺序依照其 `Status` 信息判断当前 *Subnet* 是否仍有足够的 IP，若符合条件，则返回它；否则，尝试判断下一个 *Subnet*。
 4. 根据返回的 *Subnet* 信息，由 IPAM 逻辑开始分配 IP：
    - 判断相关记录 IP 分配信息的注解是否已经有值，如果存在，进入分配指定 IP 的流程（Kube-OVN 静态 IP 能力）；否则，进入正常随机分配流程。
    - 通过 Subnet 结构体中维护的 IP 分配关系 map 判断是否存在 IP 分配冲突。
-   - 遍历  `V4FreeIPList` ，优先从其中挑出一个 IP；若 `V4FreeIPList` 已耗尽，则遍历 `V4ReleasedIPList` 挑选 IP。选出 IP 后，将该 IP 从  `V4FreeIPList` 或 `V4ReleasedIPList` 中剔除（IP 会在被释放时写入 `V4ReleasedIPList` ， `V4ReleasedIPList` 与 `V4FreeIPList` 的能力非常重叠）。
+   - 遍历  `V4FreeIPList`，优先从其中挑出一个 IP；若 `V4FreeIPList` 已耗尽，则遍历 `V4ReleasedIPList` 挑选 IP。选出 IP 后，将该 IP 从  `V4FreeIPList` 或 `V4ReleasedIPList` 中剔除（IP 会在被释放时写入 `V4ReleasedIPList`，`V4ReleasedIPList` 与 `V4FreeIPList` 的能力非常重叠）。
    - 最终成功分配到了一个 IP，将 IP 分配的记录信息维护至 Subnet 结构体中的 IP 分配关系 map。
 5. 将分配的 IP 地址以及其他相关信息，以注解的形式维护至 *Pod* 资源上。
 
@@ -266,7 +266,7 @@ Kube-OVN IPAM 的逻辑是与 Kube-OVN 自身深度耦合的，所以不能片�
 3. IPAM 未能与 main CNI Plugin 解耦，代码内嵌严重，各方面都不太遵守 CNI 协议。
 4. *Subnet* 居然有双栈模式，IPv4 和 IPv6 的地址放一起管理，肉眼可见的累。导致相关结构体的字段都是双倍，各种方法实现也比较冗长，不合理的设计。
 5. *Subnet* 与 *IPs* 的 CRD 设计，有参考意义，*“维护当前可用 IP 集合”* 这个行为其实是非常有必要的。
-7. 锁机制可以忽略。通过各种初始化的流程，将 *Pod* 的数据全全加载到内存中的做法没有什么优雅可言。
+6. 锁机制可以忽略。通过各种初始化的流程，将 *Pod* 的数据全全加载到内存中的做法没有什么优雅可言。
 7. 一类资源的不同事件回调居然配合了多个 workqueue 来工作，这真的不会存在问题吗？
 
 
