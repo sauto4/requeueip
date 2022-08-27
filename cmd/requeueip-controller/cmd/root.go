@@ -14,10 +14,29 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main
+package cmd
 
-import "fmt"
+import (
+	"os"
 
-func main() {
-	fmt.Println("Cheers!")
+	"github.com/sauto4/requeueip/cmd/requeueip-controller/cmd/options"
+	"github.com/spf13/cobra"
+	ctrl "sigs.k8s.io/controller-runtime"
+)
+
+var (
+	o   = options.NewOptions()
+	log = ctrl.Log.WithName("requeueip-controller")
+)
+
+var rootCmd = &cobra.Command{
+	Use:   "requeueip-controller",
+	Short: "RequeueIP Controller",
+}
+
+func Execute() {
+	if err := rootCmd.Execute(); err != nil {
+		log.Error(err, "gg")
+		os.Exit(1)
+	}
 }
