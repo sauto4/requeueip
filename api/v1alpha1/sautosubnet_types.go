@@ -20,20 +20,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// SautoSubnetSpec defines the desired state of SautoSubnet
+// SautoSubnetSpec defines the desired state of SautoSubnet.
 type SautoSubnetSpec struct {
 	// Foo is an example field of SautoSubnet. Edit sautosubnet_types.go to remove/update
 	Foo string `json:"foo,omitempty"`
 }
 
-// SautoSubnetStatus defines the observed state of SautoSubnet
-type SautoSubnetStatus struct {
-}
+// SautoSubnetStatus defines the observed state of SautoSubnet.
+type SautoSubnetStatus struct{}
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// SautoSubnet is the Schema for the sautosubnets API
+// SautoSubnet is the Schema for the sautosubnets API.
 type SautoSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -44,7 +43,7 @@ type SautoSubnet struct {
 
 //+kubebuilder:object:root=true
 
-// SautoSubnetList contains a list of SautoSubnet
+// SautoSubnetList contains a list of SautoSubnet.
 type SautoSubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

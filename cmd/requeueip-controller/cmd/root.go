@@ -19,9 +19,10 @@ package cmd
 import (
 	"os"
 
-	"github.com/sauto4/requeueip/cmd/requeueip-controller/cmd/options"
 	"github.com/spf13/cobra"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/sauto4/requeueip/cmd/requeueip-controller/cmd/options"
 )
 
 var (

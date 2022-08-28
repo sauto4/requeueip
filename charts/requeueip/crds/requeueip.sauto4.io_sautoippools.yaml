@@ -18,7 +18,7 @@ spec:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: SautoIPPool is the Schema for the sautoippools API
+        description: SautoIPPool is the Schema for the sautoippools API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,7 +33,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: SautoIPPoolSpec defines the desired state of SautoIPPool
+            description: SautoIPPoolSpec defines the desired state of SautoIPPool.
             properties:
               foo:
                 description: Foo is an example field of SautoIPPool. Edit sautoippool_types.go
@@ -41,7 +41,7 @@ spec:
                 type: string
             type: object
           status:
-            description: SautoIPPoolStatus defines the observed state of SautoIPPool
+            description: SautoIPPoolStatus defines the observed state of SautoIPPool.
             type: object
         type: object
     served: true

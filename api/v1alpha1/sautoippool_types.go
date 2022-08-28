@@ -20,20 +20,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// SautoIPPoolSpec defines the desired state of SautoIPPool
+// SautoIPPoolSpec defines the desired state of SautoIPPool.
 type SautoIPPoolSpec struct {
 	// Foo is an example field of SautoIPPool. Edit sautoippool_types.go to remove/update
 	Foo string `json:"foo,omitempty"`
 }
 
-// SautoIPPoolStatus defines the observed state of SautoIPPool
-type SautoIPPoolStatus struct {
-}
+// SautoIPPoolStatus defines the observed state of SautoIPPool.
+type SautoIPPoolStatus struct{}
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// SautoIPPool is the Schema for the sautoippools API
+// SautoIPPool is the Schema for the sautoippools API.
 type SautoIPPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -44,7 +43,7 @@ type SautoIPPool struct {
 
 //+kubebuilder:object:root=true
 
-// SautoIPPoolList contains a list of SautoIPPool
+// SautoIPPoolList contains a list of SautoIPPool.
 type SautoIPPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
