@@ -1,11 +1,11 @@
-build:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/requeueip cmd/requeueip.go
+#!/usr/bin/make -f
 
-test:
-	@echo "test"
+.PHONY: manifests
+manifests:
+	@echo "Generate ClusterRole and CustomResourceDefinition objects."
+	@tools/k8s-api-gen/controller-gen.sh manifests
 
-image:
-	@echo "image"
-
-clean:
-	@echo "clean"
+.PHONY: generate-k8s-api
+generate-k8s-api:
+	@echo "Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations."
+	@tools/k8s-api-gen/controller-gen.sh deepcopy
