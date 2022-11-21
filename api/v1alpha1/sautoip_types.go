@@ -20,20 +20,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// SautoIPSpec defines the desired state of SautoIP
+// SautoIPSpec defines the desired state of SautoIP.
 type SautoIPSpec struct {
 	// Foo is an example field of SautoIP. Edit sautoip_types.go to remove/update
 	Foo string `json:"foo,omitempty"`
 }
 
-// SautoIPStatus defines the observed state of SautoIP
-type SautoIPStatus struct {
-}
+// SautoIPStatus defines the observed state of SautoIP.
+type SautoIPStatus struct{}
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// SautoIP is the Schema for the sautoips API
+// SautoIP is the Schema for the sautoips API.
 type SautoIP struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -44,7 +43,7 @@ type SautoIP struct {
 
 //+kubebuilder:object:root=true
 
-// SautoIPList contains a list of SautoIP
+// SautoIPList contains a list of SautoIP.
 type SautoIPList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

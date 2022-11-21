@@ -18,7 +18,7 @@ spec:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: SautoSubnet is the Schema for the sautosubnets API
+        description: SautoSubnet is the Schema for the sautosubnets API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,7 +33,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: SautoSubnetSpec defines the desired state of SautoSubnet
+            description: SautoSubnetSpec defines the desired state of SautoSubnet.
             properties:
               foo:
                 description: Foo is an example field of SautoSubnet. Edit sautosubnet_types.go
@@ -41,7 +41,7 @@ spec:
                 type: string
             type: object
           status:
-            description: SautoSubnetStatus defines the observed state of SautoSubnet
+            description: SautoSubnetStatus defines the observed state of SautoSubnet.
             type: object
         type: object
     served: true
