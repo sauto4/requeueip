@@ -15,7 +15,7 @@ spec:
     singular: sautoippool
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - name: v1
     schema:
       openAPIV3Schema:
         description: SautoIPPool is the Schema for the sautoippools API.

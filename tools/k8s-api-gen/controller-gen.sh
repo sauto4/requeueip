@@ -28,7 +28,7 @@ manifests_gen() {
 
   controller-gen \
   crd rbac:roleName="requeueip-admin" \
-  paths="${PWD}/${PROJECT_ROOT}/api/v1alpha1" \
+  paths="${PWD}/${PROJECT_ROOT}/api/v1" \
   output:crd:artifacts:config="${output_dir}/crds" \
   output:rbac:artifacts:config="${output_dir}/templates"
 }
@@ -38,7 +38,7 @@ deepcopy_gen() {
 
   controller-gen \
     object:headerFile="${tmp_header_file}" \
-    paths="${PWD}/${PROJECT_ROOT}/api/v1alpha1"
+    paths="${PWD}/${PROJECT_ROOT}/api/v1"
 }
 
 manifests_verify() {
@@ -67,14 +67,17 @@ manifests_verify() {
   fi
 }
 
+cleanup() {
+  rm -rf ${CONTROLLER_GEN_TMP_DIR}
+}
+
 help() {
     echo "help"
 }
 
 main() {
-  if [ -d ${CONTROLLER_GEN_TMP_DIR} ];then
-    rm -rf ${CONTROLLER_GEN_TMP_DIR}
-  fi
+  trap "cleanup" EXIT SIGINT
+  cleanup
   mkdir -p ${CONTROLLER_GEN_TMP_DIR}
 
   case ${1:-none} in
@@ -91,9 +94,6 @@ main() {
       help
       ;;
   esac
-
-  # Clean up controller-gen tmp dir.
-  rm -rf ${CONTROLLER_GEN_TMP_DIR}
 }
 
 main "$*"
