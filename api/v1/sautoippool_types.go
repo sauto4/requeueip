@@ -14,42 +14,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package v1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// SautoIPSpec defines the desired state of SautoIP.
-type SautoIPSpec struct {
-	// Foo is an example field of SautoIP. Edit sautoip_types.go to remove/update
+// SautoIPPoolSpec defines the desired state of SautoIPPool.
+type SautoIPPoolSpec struct {
+	// Foo is an example field of SautoIPPool. Edit sautoippool_types.go to remove/update
 	Foo string `json:"foo,omitempty"`
 }
 
-// SautoIPStatus defines the observed state of SautoIP.
-type SautoIPStatus struct{}
+// SautoIPPoolStatus defines the observed state of SautoIPPool.
+type SautoIPPoolStatus struct{}
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// SautoIP is the Schema for the sautoips API.
-type SautoIP struct {
+// SautoIPPool is the Schema for the sautoippools API.
+type SautoIPPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   SautoIPSpec   `json:"spec,omitempty"`
-	Status SautoIPStatus `json:"status,omitempty"`
+	Spec   SautoIPPoolSpec   `json:"spec,omitempty"`
+	Status SautoIPPoolStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// SautoIPList contains a list of SautoIP.
-type SautoIPList struct {
+// SautoIPPoolList contains a list of SautoIPPool.
+type SautoIPPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SautoIP `json:"items"`
+	Items           []SautoIPPool `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&SautoIP{}, &SautoIPList{})
+	SchemeBuilder.Register(&SautoIPPool{}, &SautoIPPoolList{})
 }

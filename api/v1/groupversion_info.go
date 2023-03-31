@@ -17,8 +17,8 @@ limitations under the License.
 // +kubebuilder:object:generate=true
 // +groupName=requeueip.sauto4.io
 
-// Package v1alpha1 contains API Schema definitions for the requeueip v1alpha1 API group
-package v1alpha1
+// Package v1 contains API Schema definitions for the requeueip v1 API group
+package v1
 
 import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -27,7 +27,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects.
-	GroupVersion = schema.GroupVersion{Group: "requeueip.sauto4.io", Version: "v1alpha1"}
+	GroupVersion = schema.GroupVersion{Group: "requeueip.sauto4.io", Version: "v1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme.
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
