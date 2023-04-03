@@ -9,16 +9,29 @@ metadata:
 spec:
   group: requeueip.sauto4.io
   names:
+    categories:
+    - requeueip
     kind: SautoIPPool
     listKind: SautoIPPoolList
     plural: sautoippools
+    shortNames:
+    - sp
     singular: sautoippool
-  scope: Namespaced
+  scope: Cluster
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - description: version
+      jsonPath: .spec.version
+      name: VERSION
+      type: string
+    - description: cidr
+      jsonPath: .spec.cidr
+      name: CIDR
+      type: string
+    name: v1
     schema:
       openAPIV3Schema:
-        description: SautoIPPool is the Schema for the sautoippools API.
+        description: SautoIPPool is the Schema for the SautoIPPools API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -35,13 +48,31 @@ spec:
           spec:
             description: SautoIPPoolSpec defines the desired state of SautoIPPool.
             properties:
-              foo:
-                description: Foo is an example field of SautoIPPool. Edit sautoippool_types.go
-                  to remove/update
+              cidr:
                 type: string
+              excludedIPs:
+                items:
+                  type: string
+                type: array
+              ips:
+                items:
+                  type: string
+                type: array
+              version:
+                enum:
+                - 4
+                - 6
+                type: string
+            required:
+            - cidr
             type: object
           status:
             description: SautoIPPoolStatus defines the observed state of SautoIPPool.
+            properties:
+              free:
+                items:
+                  type: string
+                type: array
             type: object
         type: object
     served: true

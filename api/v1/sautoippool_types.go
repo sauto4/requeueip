@@ -22,17 +22,33 @@ import (
 
 // SautoIPPoolSpec defines the desired state of SautoIPPool.
 type SautoIPPoolSpec struct {
-	// Foo is an example field of SautoIPPool. Edit sautoippool_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// +kubebuilder:validation:Enum=4;6
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty"`
+
+	// +kubebuilder:validation:Required
+	CIDR string `json:"cidr"`
+
+	// +kubebuilder:validation:Optional
+	IPs []string `json:"ips,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedIPs []string `json:"excludedIPs,omitempty"`
 }
 
 // SautoIPPoolStatus defines the observed state of SautoIPPool.
-type SautoIPPoolStatus struct{}
+type SautoIPPoolStatus struct {
+	// +kubebuilder:validation:Optional
+	Free []string `json:"free,omitempty"`
+}
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
+// +kubebuilder:resource:categories={requeueip},path="sautoippools",scope="Cluster",shortName={sp},singular="sautoippool"
+// +kubebuilder:printcolumn:JSONPath=".spec.version",description="version",name="VERSION",type=string
+// +kubebuilder:printcolumn:JSONPath=".spec.cidr",description="cidr",name="CIDR",type=string
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
-// SautoIPPool is the Schema for the sautoippools API.
+// SautoIPPool is the Schema for the SautoIPPools API.
 type SautoIPPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -41,7 +57,7 @@ type SautoIPPool struct {
 	Status SautoIPPoolStatus `json:"status,omitempty"`
 }
 
-//+kubebuilder:object:root=true
+// +kubebuilder:object:root=true
 
 // SautoIPPoolList contains a list of SautoIPPool.
 type SautoIPPoolList struct {

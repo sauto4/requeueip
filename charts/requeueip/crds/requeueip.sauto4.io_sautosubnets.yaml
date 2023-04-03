@@ -9,16 +9,29 @@ metadata:
 spec:
   group: requeueip.sauto4.io
   names:
+    categories:
+    - requeueip
     kind: SautoSubnet
     listKind: SautoSubnetList
     plural: sautosubnets
+    shortNames:
+    - ss
     singular: sautosubnet
-  scope: Namespaced
+  scope: Cluster
   versions:
-  - name: v1
+  - additionalPrinterColumns:
+    - description: version
+      jsonPath: .spec.version
+      name: VERSION
+      type: string
+    - description: cidr
+      jsonPath: .spec.cidr
+      name: CIDR
+      type: string
+    name: v1
     schema:
       openAPIV3Schema:
-        description: SautoSubnet is the Schema for the sautosubnets API.
+        description: SautoSubnet is the Schema for the SautoSubnets API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -35,13 +48,27 @@ spec:
           spec:
             description: SautoSubnetSpec defines the desired state of SautoSubnet.
             properties:
-              foo:
-                description: Foo is an example field of SautoSubnet. Edit sautosubnet_types.go
-                  to remove/update
+              cidr:
                 type: string
+              excludedIPs:
+                items:
+                  type: string
+                type: array
+              version:
+                enum:
+                - 4
+                - 6
+                type: string
+            required:
+            - cidr
             type: object
           status:
             description: SautoSubnetStatus defines the observed state of SautoSubnet.
+            properties:
+              free:
+                items:
+                  type: string
+                type: array
             type: object
         type: object
     served: true
