@@ -9,11 +9,15 @@ metadata:
 spec:
   group: requeueip.sauto4.io
   names:
+    categories:
+    - requeueip
     kind: SautoIP
     listKind: SautoIPList
     plural: sautoips
+    shortNames:
+    - si
     singular: sautoip
-  scope: Namespaced
+  scope: Cluster
   versions:
   - name: v1
     schema:
@@ -32,19 +36,9 @@ spec:
             type: string
           metadata:
             type: object
-          spec:
-            description: SautoIPSpec defines the desired state of SautoIP.
-            properties:
-              foo:
-                description: Foo is an example field of SautoIP. Edit sautoip_types.go
-                  to remove/update
-                type: string
-            type: object
           status:
             description: SautoIPStatus defines the observed state of SautoIP.
             type: object
         type: object
     served: true
     storage: true
-    subresources:
-      status: {}

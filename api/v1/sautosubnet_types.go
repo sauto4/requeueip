@@ -22,17 +22,30 @@ import (
 
 // SautoSubnetSpec defines the desired state of SautoSubnet.
 type SautoSubnetSpec struct {
-	// Foo is an example field of SautoSubnet. Edit sautosubnet_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// +kubebuilder:validation:Enum=4;6
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty"`
+
+	// +kubebuilder:validation:Required
+	CIDR string `json:"cidr"`
+
+	// +kubebuilder:validation:Optional
+	ExcludedIPs []string `json:"excludedIPs,omitempty"`
 }
 
 // SautoSubnetStatus defines the observed state of SautoSubnet.
-type SautoSubnetStatus struct{}
+type SautoSubnetStatus struct {
+	// +kubebuilder:validation:Optional
+	Free []string `json:"free,omitempty"`
+}
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
+// +kubebuilder:resource:categories={requeueip},path="sautosubnets",scope="Cluster",shortName={ss},singular="sautosubnet"
+// +kubebuilder:printcolumn:JSONPath=".spec.version",description="version",name="VERSION",type=string
+// +kubebuilder:printcolumn:JSONPath=".spec.cidr",description="cidr",name="CIDR",type=string
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
-// SautoSubnet is the Schema for the sautosubnets API.
+// SautoSubnet is the Schema for the SautoSubnets API.
 type SautoSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -41,7 +54,7 @@ type SautoSubnet struct {
 	Status SautoSubnetStatus `json:"status,omitempty"`
 }
 
-//+kubebuilder:object:root=true
+// +kubebuilder:object:root=true
 
 // SautoSubnetList contains a list of SautoSubnet.
 type SautoSubnetList struct {

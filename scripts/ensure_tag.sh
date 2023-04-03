@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 version=v`gsemver bump`
 if [ -z "`git tag -l $version`" ];then
   git tag -a -m "release version $version" $version
