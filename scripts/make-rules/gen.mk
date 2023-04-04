@@ -25,39 +25,39 @@ gen.clean: gen.manifests-clean gen.openapi-clean
 .PHONY: gen.manifests
 gen.manifests:
 	@echo "===========> Generate ClusterRole and CustomResourceDefinition"
-	@(cd ${ROOT_DIR} && ./tools/scripts/controller-gen.sh manifests)
+	@scripts/controller-gen.sh manifests
 
 .PHONY: gen.manifests-verify
 gen.manifests-verify:
 	@echo "===========> Verify ClusterRole and CustomResourceDefinition"
-	@(cd ${ROOT_DIR} && ./tools/scripts/controller-gen.sh verify)
+	@scripts/controller-gen.sh verify
 
 .PHONY: gen.manifests-clean
 gen.manifests-clean:
 	@echo "===========> Clean ClusterRole and CustomResourceDefinition"
-	@(cd ${ROOT_DIR} && ./tools/scripts/controller-gen.sh clean)
+	@scripts/controller-gen.sh clean
 	
 .PHONY: gen.deepcopy
 gen.deepcopy:
 	@echo "===========> Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations"
-	@(cd ${ROOT_DIR} && ./tools/scripts/controller-gen.sh deepcopy)
+	@scripts/controller-gen.sh deepcopy
 
 .PHONY: gen.openapi-validate
 gen.openapi-validate:
 	@echo "===========> Validate OpenAPI spec openapi.yaml"
-	@(cd ${ROOT_DIR} && ./tools/scripts/swagger-gen.sh validate)
+	@scripts/swagger-gen.sh validate
 
 .PHONY: gen.openapi
 gen.openapi: gen.openapi-validate
 	@echo "===========> Generate OpenAPI source code"
-	@(cd ${ROOT_DIR} && ./tools/scripts/swagger-gen.sh gen)
+	@scripts/swagger-gen.sh gen
 
 .PHONY: gen.openapi-verify
 gen.openapi-verify: gen.openapi-validate
 	@echo "===========> Verify OpenAPI source code"
-	@(cd ${ROOT_DIR} && ./tools/scripts/swagger-gen.sh verify)
+	@scripts/swagger-gen.sh verify
 
 .PHONY: gen.openapi-clean
 gen.openapi-clean:
 	@echo "===========> Clean OpenAPI source code"
-	@(cd ${ROOT_DIR} && ./tools/scripts/swagger-gen.sh clean)
+	@scripts/swagger-gen.sh clean
