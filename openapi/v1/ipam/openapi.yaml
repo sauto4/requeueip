@@ -1,0 +1,154 @@
+swagger: "2.0"
+info:
+  title: RequeueIP API
+  version: v1
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+x-schemes:
+- unix
+basePath: "/v1"
+produces:
+- application/json
+consumes:
+- application/json
+paths:
+  "/ipam/healthz":
+    get:
+      tags:
+      - ipam
+      responses:
+        "200":
+          description: Success
+  "/ipam/ips":
+    post:
+      tags:
+      - ipam
+      parameters:
+      - name: args
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/CmdAddArgs"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/CmdAddResult"
+        '500':
+          description: Failed to allocate IP addresses
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - ipam
+      parameters:
+      - name: args
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/CmdDelArgs"
+      responses:
+        "200":
+          description: Success
+        '500':
+          description: Failed to release IP addresses
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  Error:
+    type: string
+  CmdAddArgs:
+    type: object
+    properties:
+      containerID:
+        type: string
+      ifName:
+        type: string
+      podNamespace:
+        type: string
+      podName:
+        type: string
+      ipv4Pools:
+        type: array
+        items:
+          type: string
+      ipv6Pools:
+        type: array
+        items:
+          type: string
+    required:
+    - containerID
+    - ifName
+    - podNamespace
+    - podName
+  CmdAddResult:
+    type: object
+    properties:
+      ips:
+        type: array
+        items:
+          $ref: "#/definitions/IPConfig"
+      routes:
+        type: array
+        items:
+          $ref: "#/definitions/Route"
+      dns:
+        type: object
+        $ref: "#/definitions/DNS"
+    required:
+    - ips
+  CmdDelArgs:
+    type: object
+    properties:
+      containerID:
+        type: string
+      ifName:
+        type: string
+      podNamespace:
+        type: string
+      podName:
+        type: string
+    required:
+    - containerID
+    - ifName
+    - podNamespace
+    - podName
+  DNS:
+    type: object
+    properties:
+      nameservers:
+        type: array
+        items:
+          type: string
+      domain:
+        type: string
+      search:
+        type: array
+        items:
+          type: string
+      options:
+        type: array
+        items:
+          type: string
+    required:
+    - nameservers
+  Route:
+    type: object
+    properties:
+      dst:
+        type: string
+      gw:
+        type: string
+    required:
+    - dst
+  IPConfig:
+    type: object
+    properties:
+      address:
+        type: string
+      gateway:
+        type: string
+    required:
+    - address
