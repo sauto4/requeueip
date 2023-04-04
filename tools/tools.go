@@ -19,4 +19,7 @@ limitations under the License.
 
 package tools
 
-import _ "sigs.k8s.io/controller-tools/cmd/controller-gen"
+import (
+	_ "github.com/go-swagger/go-swagger/cmd/swagger"
+	_ "sigs.k8s.io/controller-tools/cmd/controller-gen"
+)
