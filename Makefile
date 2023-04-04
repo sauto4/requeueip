@@ -1,4 +1,5 @@
 #!/usr/bin/make -f
+
 # Copyright 2022 The RequeueIP Authors.
 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,11 +35,9 @@ VERSION_PACKAGE=github.com/sauto4/requeueip/internal/version
 include scripts/make-rules/common.mk 
 include scripts/make-rules/golang.mk
 # include scripts/make-rules/image.mk
-include scripts/make-rules/deploy.mk
 include scripts/make-rules/copyright.mk
 include scripts/make-rules/gen.mk
 include scripts/make-rules/release.mk
-include scripts/make-rules/dependencies.mk
 include scripts/make-rules/tools.mk
 
 # ==============================================================================
@@ -50,15 +49,15 @@ Options:
   DEBUG            Whether to generate debug symbols. Default is 0.
   BINS             The binaries to build. Default is all of cmd.
                    This option is available when using: make build/build.multiarch
-                   Example: make build BINS="requeueip requeueip-controller"
+                   Example: make build BINS="requeueip requeueip-agent requeueip-controller"
   IMAGES           Backend images to make. Default is all of cmd starting with requeueip-.
                    This option is available when using: make image/image.multiarch/push/push.multiarch
-                   Example: make image.multiarch IMAGES="requeueip requeueip-controller"
+                   Example: make image.multiarch IMAGES="requeueip-agent requeueip-controller"
   REGISTRY_PREFIX  Docker registry prefix. Default is requeueip. 
                    Example: make push REGISTRY_PREFIX=ccr.ccs.tencentyun.com/requeueip VERSION=v1.6.2
   PLATFORMS        The multiple platforms to build. Default is linux_amd64 and linux_arm64.
                    This option is available when using: make build.multiarch/image.multiarch/push.multiarch
-                   Example: make image.multiarch IMAGES="requeueip requeueip-controller" PLATFORMS="linux_amd64 linux_arm64"
+                   Example: make image.multiarch IMAGES="requeueip-agent requeueip-controller" PLATFORMS="linux_amd64 linux_arm64"
   VERSION          The version information compiled into binaries.
                    The default is obtained from gsemver or git.
   V                Set to 1 enable verbose build. Default is 0.
@@ -98,11 +97,6 @@ push:
 push.multiarch:
 	@$(MAKE) image.push.multiarch
 
-## deploy: Deploy updated components to development env.
-.PHONY: deploy
-deploy:
-	@$(MAKE) deploy.run
-
 ## clean: Remove all files that are created by building.
 .PHONY: clean
 clean:
@@ -119,16 +113,12 @@ lint:
 test:
 	@$(MAKE) go.test
 
-## cover: Run unit test and get test coverage.
-# .PHONY: cover 
-# cover:
-# 	@$(MAKE) go.test.cover
+# cover: Run unit test and get test coverage.
+.PHONY: cover 
+cover:
+	@$(MAKE) go.test.cover
 
-.PHONY: release.build
-release.build:
-	@$(MAKE) push.multiarch
-
-## release: Release requeueip
+## release: Release.
 .PHONY: release
 release:
 	@$(MAKE) release.run
@@ -147,30 +137,20 @@ format: tools.verify.golines tools.verify.goimports
 verify-copyright:
 	@$(MAKE) copyright.verify
 
-## add-copyright: Ensures source code files have copyright license headers.
-# .PHONY: add-copyright
-# add-copyright:
-# 	@$(MAKE) copyright.add
+# add-copyright: Ensures source code files have copyright license headers.
+.PHONY: add-copyright
+add-copyright:
+	@$(MAKE) copyright.add
 
-## gen: Generate all necessary files, such as error code files.
+## gen: Generate all necessary files, such as source code, artifacts.
 .PHONY: gen
 gen:
 	@$(MAKE) gen.run
 
-## ca: Generate CA files for all requeueip components.
+## ca: Generate CA files for all RequeueIP components.
 .PHONY: ca
 ca:
 	@$(MAKE) gen.ca
-
-## install: Install requeueip system with all its components.
-.PHONY: install
-install:
-	@$(MAKE) install.install
-
-## dependencies: Install necessary dependencies.
-.PHONY: dependencies
-dependencies:
-	@$(MAKE) dependencies.run
 
 ## tools: install dependent tools.
 .PHONY: tools

@@ -19,7 +19,7 @@ set -o nounset
 set -o pipefail
 
 # CONST
-PROJECT_ROOT=$(dirname ${BASH_SOURCE[0]})/../..
+PROJECT_ROOT=$(dirname ${BASH_SOURCE[0]})/..
 SWAGGER_PKG=${SWAGGER_PKG:-$(cd ${PROJECT_ROOT}; ls -d -1 ./vendor/github.com/go-swagger/go-swagger 2>/dev/null || echo ../go-swagger)}
 
 # ENV
@@ -59,13 +59,13 @@ generate() {
     --target ${output_path} \
     --default-scheme unix \
     --exclude-main \
-    -r ${PROJECT_ROOT}/tools/boilerplate.txt
+    -r ${PROJECT_ROOT}/scripts/boilerplate.txt
 
   swagger generate client \
     -f ${SPEC} \
     --target ${output_path} \
     --default-scheme unix \
-    -r ${PROJECT_ROOT}/tools/boilerplate.txt
+    -r ${PROJECT_ROOT}/scripts/boilerplate.txt
 }
 
 verify() {

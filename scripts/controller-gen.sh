@@ -19,7 +19,7 @@ set -o nounset
 set -o pipefail
 
 # CONST
-PROJECT_ROOT=$(dirname ${BASH_SOURCE[0]})/../..
+PROJECT_ROOT=$(dirname ${BASH_SOURCE[0]})/..
 CODEGEN_PKG=${CODEGEN_PKG:-$(cd ${PROJECT_ROOT}; ls -d -1 ./vendor/sigs.k8s.io/controller-tools/cmd/controller-gen 2>/dev/null || echo ../controller-gen)}
 
 # ENV
@@ -56,7 +56,7 @@ deepcopy_gen() {
   mkdir -p ${CONTROLLER_GEN_TMP_PATH}
 
   header_file=${CONTROLLER_GEN_TMP_PATH}/boilerplate.go.txt
-  cat ${PROJECT_ROOT}/tools/boilerplate.txt | sed -e '$a*/' -e '1i/*' > ${header_file}
+  cat ${PROJECT_ROOT}/scripts/boilerplate.txt | sed -e '$a*/' -e '1i/*' > ${header_file}
 
   controller-gen \
     object:headerFile="${header_file}" \

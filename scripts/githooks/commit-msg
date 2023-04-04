@@ -35,8 +35,8 @@ fi
 check_msg=$(cat $1 | egrep "^(feat|fix|docs|style|refactor|perf|test|workflow|build|ci|chore|release|workflow|add)(\w+)?:\s(\S|\w)+")
 if [ "$check_msg" = "" ]; then
 	 echo "\nInvalid commit message format, please use the correct format:\
-    \nfeat: add comments\
-    \nfix: handle events on blur (close #28)"
+    \nfeat: Add comments\
+    \nfix: Handle events on blur (close #28)"
     
 	exit 1
 fi
@@ -53,9 +53,8 @@ fi
 # Avoid the --in-place option which only appeared in Git 2.8
 # Avoid the --if-exists option which only appeared in Git 2.15
 if ! git -c trailer.ifexists=doNothing interpret-trailers \
-      --trailer "Change-Id: I${random}" \
       --trailer "Signed-off-by: $username $email" < "$1" > "${dest}" ; then
-  echo "cannot insert change-id line in $1"
+  echo "cannot insert signed-off-by line in $1"
   exit 1
 fi
 
