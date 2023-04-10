@@ -9,7 +9,7 @@ require (
 	github.com/go-openapi/spec v0.20.8
 	github.com/go-openapi/strfmt v0.21.3
 	github.com/go-openapi/swag v0.22.3
-	github.com/go-openapi/validate v0.22.0
+	github.com/go-openapi/validate v0.22.1
 	github.com/go-swagger/go-swagger v0.30.4
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/spf13/cobra v1.6.1
